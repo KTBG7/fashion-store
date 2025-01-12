@@ -1,5 +1,4 @@
 import { FILTER_OPTIONS } from "@/app/constants";
-import React, { memo } from "react";
 import SlideInMenu from "../SlideInMenu";
 
 type FilterOptionsProps = {

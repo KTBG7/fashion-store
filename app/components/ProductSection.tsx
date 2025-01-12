@@ -1,16 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import ProductDetailsSection from "@/app/components/ProductDetailsSection";
 import ProductImageSection from "@/app/components/ProductImageSection";
-import {
-  Product,
-  ProductImage,
-  ProductInventory,
-  SelectedProduct,
-} from "@/app/types";
+import { Product, ProductImage, ProductInventory } from "@/app/types";
 import React from "react";
-import { productSearcher } from "./utils/helperFunctions";
+import { productSearcher } from "../utils/helperFunctions";
 import ProductSpecificationsSection from "./ProductSpecificationsSection";
 import ProductCollectionSection from "./ProductCollectionSection";
+import { useQuery } from "@tanstack/react-query";
+import { fetchProduct } from "../utils/apiHelper";
 
 type ProductSectionProps = {
   productId: string;
@@ -27,24 +24,16 @@ const ProductSection = ({ productId }: ProductSectionProps) => {
     useState<ProductVariant | null>();
 
   const [currentImage, setCurrentImage] = useState<ProductImage>();
-
-  const fetchProduct = useMemo(
-    () => async () => {
-      const data = await fetch(
-        "https://www.greatfrontend.com/api/projects/challenges/e-commerce/products/" +
-          productId,
-      );
-      const result = await data.json();
-      if (!result.error) {
-        setProduct(result);
-      }
-    },
-    [productId],
-  );
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ["fetchProduct" + productId],
+    queryFn: () => fetchProduct(productId),
+  });
 
   useEffect(() => {
-    fetchProduct();
-  }, [fetchProduct]);
+    if (data && !isLoading && !isFetching) {
+      setProduct(data);
+    }
+  }, [data, isLoading, isFetching]);
 
   useEffect(() => {
     if (product) {
@@ -88,7 +77,11 @@ const ProductSection = ({ productId }: ProductSectionProps) => {
   );
   return (
     <div className="no-padding-container containerMax:pr-8 containerMax:pl-[28px] gap-y-12 ">
-      {product && selectedProductDetails && currentImage ? (
+      {!isLoading &&
+      !isFetching &&
+      product &&
+      selectedProductDetails &&
+      currentImage ? (
         <>
           <ProductImageSection
             selectedColor={selectedProductDetails.inventory.color}

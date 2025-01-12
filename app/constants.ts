@@ -106,4 +106,10 @@ export const FILTER_MAP = {
 export const API_ENDPOINTS = {
   products:
     "https://www.greatfrontend.com/api/projects/challenges/e-commerce/products",
+  latestCollections:
+    "https://www.greatfrontend.com/api/projects/challenges/e-commerce/collections?collection=latest",
+  collectionsGrid:
+    "https://www.greatfrontend.com/api/projects/challenges/e-commerce/collections?collection=latest",
+  collection:
+    "https://www.greatfrontend.com/api/projects/challenges/e-commerce/products?collection=",
 };

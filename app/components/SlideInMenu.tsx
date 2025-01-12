@@ -30,7 +30,7 @@ const SlideInMenu = ({
   updateFilters,
   type,
 }: SlideInMenuProps) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const menuDetailsRef = useRef<HTMLUListElement>(null);
 
   const info = Object.values(items);
@@ -45,6 +45,12 @@ const SlideInMenu = ({
   const toggleMenu = () => {
     setIsOpen((prev) => !!!prev);
   };
+  useLayoutEffect(() => {
+    if (menuDetailsRef.current) {
+      menuDetailsRef.current.style.maxHeight = "0px";
+      menuDetailsRef.current.style.paddingBottom = "0px";
+    }
+  }, []);
   useEffect(() => {
     if (menuDetailsRef.current) {
       if (menuDetailsRef.current.style.maxHeight !== "0px" && !isOpen) {
@@ -52,7 +58,9 @@ const SlideInMenu = ({
         menuDetailsRef.current.style.paddingBottom = "0px";
         //labelAndButtonContainerRef.current.style.paddingBottom = "0px";
       } else {
-        updateStyles();
+        if (isOpen) {
+          updateStyles();
+        }
       }
     }
   }, [isOpen]);
@@ -64,7 +72,7 @@ const SlideInMenu = ({
     >
       <button
         style={{ transition: "padding-bottom 0.3s ease-out" }}
-        className="flex w-full pb-6 items-center justify-between h-fit"
+        className="flex w-full pb-5 items-center justify-between h-fit"
         onClick={toggleMenu}
       >
         <h5 className="text-lg font-medium">{menuDetails.label}</h5>
@@ -76,11 +84,12 @@ const SlideInMenu = ({
       </button>
       <ul
         style={{
-          transitionProperty: "max-height, padding-bottom",
+          transitionProperty: "max-height, padding-bottom, padding-top",
           transitionDuration: "0.3s",
           transitionTimingFunction: "ease-out",
+          maxHeight: 0,
         }}
-        className={`pl-2 overflow-hidden pb-6 flex ${!colors && !stars ? "gap-4 flex-col containerMax:gap-6" : ""} ${colors ? "flex-row gap-3 flex-wrap w-full" : ""} ${stars ? "w-full flex-col gap-6" : ""}`}
+        className={`pl-2 overflow-hidden pt-1 flex ${!colors && !stars ? "gap-4 flex-col containerMax:gap-6" : ""} ${colors ? "flex-row gap-3 flex-wrap w-full" : ""} ${stars ? "w-full flex-col gap-6" : ""}`}
         ref={menuDetailsRef}
       >
         {info.map((desc, idx) => {
@@ -97,7 +106,6 @@ const SlideInMenu = ({
               {colors && (
                 <ColorButton
                   onClick={updateFilters}
-                  disabled
                   stock
                   idx={idx}
                   color={desc.label.toLowerCase()}

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import shoppingBag from "@/public/shopping-bag.svg";
-import logo from "@/public/stylenest.svg";
+import logo from "@/public/ecommerce_logo.svg";
 import hamburgerIcon from "@/public/hamburger-icon.svg";
 import Image from "next/image";
 import Sidebar from "./Sidebar";

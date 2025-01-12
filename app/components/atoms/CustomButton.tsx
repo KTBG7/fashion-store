@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ReactNode, Ref, MouseEvent, FocusEvent } from "react";
-import { getClasses } from "../utils/classHelper";
+import { getClasses } from "../../utils/classHelper";
 
 type CustomButtonProps = {
   label: string;
@@ -94,8 +94,10 @@ const CustomButton = ({
           aria-disabled={disabled}
           aria-selected={selected}
           onFocus={onFocus}
-          style={imageSrc ? { backgroundImage: `url(${imageSrc})` } : {}}
-          className={getClasses("button" + variant, needsSpan) + className}
+          style={imageSrc ? { backgroundImage: `url(${imageSrc})` } : style}
+          className={
+            className + " " + getClasses("button" + variant, needsSpan)
+          }
           onClick={onClick}
         >
           {needsSpan ? (

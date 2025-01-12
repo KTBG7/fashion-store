@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { Collection, Product } from "../types";
 import ProductTile from "./ProductTile";
+import { useQuery } from "@tanstack/react-query";
+import { fetchCurrentCollection } from "../utils/apiHelper";
 
 type ProductCollectionSectionProps = {
   collection: string;
@@ -12,6 +14,10 @@ const ProductCollectionSection = ({
   product_id,
 }: ProductCollectionSectionProps) => {
   const [currentCollection, setCurrentCollection] = useState<Array<Product>>();
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ["productCollection" + product_id],
+    queryFn: () => fetchCurrentCollection(collection),
+  });
 
   const filterProducts = useCallback(
     (products: Array<Product>) => {
@@ -30,19 +36,11 @@ const ProductCollectionSection = ({
   );
 
   useEffect(() => {
-    const fetchCurrentCollection = async () => {
-      const response = await fetch(
-        "https://www.greatfrontend.com/api/projects/challenges/e-commerce/products?collection=" +
-          collection,
-      );
-      const result = await response.json();
-      if (!result.error) {
-        filterProducts(result.data);
-      }
-    };
-    fetchCurrentCollection();
-  }, [collection, filterProducts]);
-  if (!currentCollection) {
+    if (data && !isLoading && !isFetching) {
+      setCurrentCollection(data);
+    }
+  }, [data, isFetching, isLoading]);
+  if (!currentCollection || isLoading || isFetching) {
     return <div>Loading...</div>;
   }
   return (

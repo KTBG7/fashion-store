@@ -29,9 +29,10 @@ const ProductTile = ({ product }: ProductTileProps) => {
           <Image
             quality={100}
             priority
-            fill
-            className="rounded-lg object-cover"
-            sizes="(max-width: 1312px) 100vw, 280px"
+            loading="eager"
+            className="relative min-w-full rounded-lg object-cover"
+            width={280}
+            height={300}
             src={image.image_url}
             alt={product.name}
           ></Image>

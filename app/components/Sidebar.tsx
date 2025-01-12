@@ -1,14 +1,14 @@
 import Image from "next/image";
 import React, { RefObject, useEffect } from "react";
 import closeIcon from "@/public/close-icon.svg";
-import logo from "@/public/stylenest.svg";
+import logo from "@/public/ecommerce_logo.svg";
 import CustomButton from "./atoms/CustomButton";
 import Link from "next/link";
 
 type SidebarProps = {
   showSidebar: boolean;
   closeSidebar: () => void;
-  logoRef: RefObject<HTMLButtonElement> | null;
+  logoRef: RefObject<HTMLButtonElement | null>;
 };
 
 const Sidebar = ({ showSidebar, closeSidebar, logoRef }: SidebarProps) => {
@@ -53,28 +53,24 @@ const Sidebar = ({ showSidebar, closeSidebar, logoRef }: SidebarProps) => {
           </button>
         </div>
         <div className="flex flex-col gap-2 self-stretch grow">
-          <button
-            tabIndex={showSidebar ? 0 : -1}
-            aria-label="Shop all page"
+          <CustomButton
+            variant="Tertiary"
+            label="Shop all"
+            localLink="/shop/products/all"
+            className="[&>span]:w-full py-2"
             role="link"
-            className="flex items-center gap-3 self-stretch px-3 py-2 rounded outline-none border-2 border-transparent border-opacity-0 focus:border-2 focus:border-indigo-500 focus:border-opacity-20 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-20"
           >
-            <span className="font-normal text-sm text-neutral-900">
-              Shop all
-            </span>
-          </button>
-          <button
-            tabIndex={showSidebar ? 0 : -1}
+            Shop All
+          </CustomButton>
+          <CustomButton
+            label="Latest arrivals"
+            localLink="/shop/latest"
             role="link"
-            aria-label="Latest arrivals page"
-            aria-flowto="logo-hamburger-menu"
-            className="flex items-center gap-3 self-stretch px-3 py-2 rounded outline-none border-2 border-transparent border-opacity-0 focus:border-2 focus:border-indigo-500 focus:border-opacity-20 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-20"
-            onKeyDown={trapFocus}
+            className="[&>span]:w-full py-2"
+            variant="Tertiary"
           >
-            <span className="font-normal text-sm text-neutral-900">
-              Latest arrivals
-            </span>
-          </button>
+            Latest arrivals
+          </CustomButton>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import SubscribeForm from "./SubscribeForm";
-import logo from "@/public/stylenest.svg";
+import logo from "@/public/ecommerce_logo.svg";
 import CustomButton from "./atoms/CustomButton";
 import youtubeLogo from "@/public/youtube-line.svg";
 import instagramLogo from "@/public/instagram-line.svg";
@@ -15,7 +15,7 @@ const Footer = () => {
         <div className="col-span-4 tablet:col-span-6 containerMax:col-span-8 flex flex-col flex-grow gap-2">
           <h2 className="text-xl font-semibold">Join our newsletter</h2>
           <span className="text-neutral-600">
-            We'll send you a nice letter once per week. No spam.
+            We&apos;ll send you a nice letter once per week. No spam.
           </span>
         </div>
         <SubscribeForm />

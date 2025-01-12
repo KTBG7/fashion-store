@@ -18,7 +18,7 @@ const PageContainer = ({
     <>
       <Navbar />
       <div className="w-full px-4 bg-transparent">
-        <main className="flex flex-col items-center gap-12 tablet:gap-16 w-full bg-white rounded-lg max-containerMax:px-4 py-12 tablet:py-16 containerMax:py-24 px-3 tablet:px-4">
+        <main className="flex min-h-screen flex-col items-center gap-12 tablet:gap-16 w-full bg-white rounded-lg max-containerMax:px-4 py-12 tablet:py-16 containerMax:py-24 px-3 tablet:px-4">
           {gridContainer ? (
             <div
               className={

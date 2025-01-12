@@ -6,6 +6,10 @@ import Footer from "./components/Footer";
 import HeroSection from "./components/HeroSection";
 import Navbar from "./components/Navbar";
 import ProductGrid from "./components/ProductGrid";
+import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
+import { Product } from "./types";
+import { fetchLatestProducts } from "./utils/apiHelper";
 
 export default function Home() {
   return (

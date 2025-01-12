@@ -1,6 +1,6 @@
 "use client";
-import { PropsWithChildren, createContext, useEffect, useState } from "react";
-import { ProductInventory, SelectedProduct } from "../types";
+import { createContext } from "react";
+import { SelectedProduct } from "../types";
 
 export type UserType = {
   user: string;
@@ -14,17 +14,3 @@ export const UserContext = createContext<UserContextType>({
   user: { user: "", cart: new Map() },
   updateUser: () => {},
 });
-export const UserContextProvider = ({ children }: PropsWithChildren) => {
-  const [userCtx, setUserCtx] = useState<UserType>({
-    user: "",
-    cart: new Map(),
-  });
-  const updateUser = (newUserDetails: UserType) => {
-    setUserCtx({ ...newUserDetails });
-  };
-  return (
-    <UserContext.Provider value={{ user: userCtx, updateUser }}>
-      {children}
-    </UserContext.Provider>
-  );
-};

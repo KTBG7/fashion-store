@@ -3,6 +3,7 @@ import FilterOptions from "../components/molecules/FilterOptions";
 
 type FilterProps = {
   updateFilters: (filterOption: string, value: string) => void;
+  clearFilters?: () => void;
   showFilter: boolean;
   closeFilter: () => void;
 };
