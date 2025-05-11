@@ -1,6 +1,5 @@
 import { SortOptions } from "../constants";
 import { FilterState } from "../types";
-import CustomButton from "./atoms/CustomButton";
 import ProductTileSkeleton from "./ProductTileSkeleton";
 
 type ProductGridSkeletonProps = {
@@ -14,7 +13,7 @@ const ProductGridSkeleton = ({
 }: ProductGridSkeletonProps) => {
   return (
     <section
-      className={`col-span-full custom-col-container h-fit grid-cols-4 tablet:grid-cols-6 ${!filters && !selectedSortBy ? "containerMax:grid-cols-12" : "containerMax:grid-cols-9"}`}
+      className={`col-span-full custom-col-container h-[140px] grid-cols-4 tablet:grid-cols-6 ${!filters && !selectedSortBy ? "containerMax:grid-cols-12" : "containerMax:grid-cols-9"}`}
     >
       <ProductTileSkeleton />
       <ProductTileSkeleton />

@@ -46,7 +46,7 @@ const CartItemsList = () => {
     return (
       <section className="col-span-full max-containerMax:pb-16  containerMax:col-span-8">
         <ul className="flex flex-col gap-8">
-          {Array.from(user.cart.values()).map(
+          {[...user.cart.values()].map(
             (product: SelectedProduct, idx) => {
               return (
                 <CartItem

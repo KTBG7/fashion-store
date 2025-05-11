@@ -1,21 +1,23 @@
 import { FILTER_OPTIONS } from "@/app/constants";
 import SlideInMenu from "../SlideInMenu";
+import CustomButton from "../atoms/CustomButton";
+import { useContext } from "react";
+import { FiltersContext } from "@/app/contexts/FiltersContext";
 
 type FilterOptionsProps = {
-  updateFilters: (filterOption: string, value: string) => void;
   drawer: boolean;
 };
 
-const FilterOptions = ({ updateFilters, drawer }: FilterOptionsProps) => {
-  const filterOptionsArray = Array.from(Object.values(FILTER_OPTIONS));
+const FilterOptions = ({ drawer }: FilterOptionsProps) => {
+  const filterOptionsArray = Object.values(FILTER_OPTIONS);
+  const { filters, clearFilters } = useContext(FiltersContext);
   return (
     <ul
-      className={`flex flex-col py-6 containerMax:py-4 border-t border-t-gray-200 containerMax:border-none ${!drawer ? "max-containerMax:hidden containerMax:col-span-3" : ""}`}
+      className={`flex flex-col py-6 containerMax:py-4 border-t border-t-gray-300 containerMax:border-none ${!drawer ? "max-containerMax:hidden containerMax:col-span-3" : ""}`}
     >
       {filterOptionsArray.map((filterOption, idx) => {
         return (
           <SlideInMenu
-            updateFilters={updateFilters}
             key={idx}
             type={filterOption.value}
             items={filterOption.items}
@@ -26,6 +28,31 @@ const FilterOptions = ({ updateFilters, drawer }: FilterOptionsProps) => {
           />
         );
       })}
+      {!drawer && (
+        <li className={"border-t border-t-gray-300 w-full"}>
+          <CustomButton
+            variant="Secondary"
+            role="button"
+            className={
+              filters.category.size > 0 ||
+              filters.rating.size > 0 ||
+              filters.color.size > 0 ||
+              filters.collection.size > 0
+                ? "pt-2 w-full text-indigo-700"
+                : "hidden"
+            }
+            label="Clear Filters"
+            onClick={clearFilters}
+          >
+            Clear All (
+            {filters.category.size +
+              filters.rating.size +
+              filters.collection.size +
+              filters.color.size}
+            )
+          </CustomButton>
+        </li>
+      )}
     </ul>
   );
 };

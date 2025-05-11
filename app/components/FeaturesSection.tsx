@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const FeaturesSection = () => {
   return (
-    <section className="no-padding-container containerMax:px-8 containerMax:gap-y-16">
+    <section className="col-span-full no-padding-container containerMax:px-8 containerMax:gap-y-16">
       <div className="flex col-span-full flex-col text-center items-center justify-center pb-12 tablet:pb-16">
         <h4 className="text-base font-semibold text-indigo-700 pb-3 ">
           Elevate your Experience
@@ -49,7 +49,7 @@ const FeaturesSection = () => {
             <span className="text-base text-neutral-600">
               Shop with confidence knowing that we stand behind our products.
               Should any issue arise within the first two years, rest assured
-              we're here to help with a hassle-free replacement.
+              we&apos;re here to help with a hassle-free replacement.
             </span>
           </div>
         </div>
@@ -64,9 +64,9 @@ const FeaturesSection = () => {
               Easy Exchanges
             </h4>
             <span className="text-base text-neutral-600">
-              If your purchase isn't quite right, pass it on to a friend who
-              might love it, and let us know. We're happy to facilitate an
-              exchange to ensure you have the perfect item to complement your
+              If your purchase isn&apos;t quite right, pass it on to a friend
+              who might love it, and let us know. We&apos;re happy to facilitate
+              an exchange to ensure you have the perfect item to complement your
               lifestyle.
             </span>
           </div>

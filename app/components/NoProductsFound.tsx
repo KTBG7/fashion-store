@@ -1,11 +1,11 @@
-import { RiShirtLine, RiTShirt2Line } from "react-icons/ri";
+import { RiTShirt2Line } from "react-icons/ri";
 import CustomButton from "./atoms/CustomButton";
 type NoProductsFoundProps = {
-  hideShowNoResult: () => void;
+  clearFilters: () => void;
 };
-const NoProductsFound = ({ hideShowNoResult }: NoProductsFoundProps) => {
+const NoProductsFound = ({ clearFilters }: NoProductsFoundProps) => {
   return (
-    <div className="col-span-full gap-5 flex flex-grow flex-col items-center justify-center">
+    <div className="col-span-full justify-center containerMax:col-span-9 gap-5 flex flex-grow flex-col items-center ">
       <div className="flex items-center justify-center rounded-full p-3 bg-white customShadow">
         <RiTShirt2Line className="w-5 h-5 text-indigo-700" />
       </div>
@@ -16,7 +16,7 @@ const NoProductsFound = ({ hideShowNoResult }: NoProductsFoundProps) => {
         Adjust your filters a bit, and let&apos;s see what we can find!
       </span>
       <CustomButton
-        onClick={hideShowNoResult}
+        onClick={clearFilters}
         variant="Secondary"
         label="Reset filters"
         role="button"

@@ -1,6 +1,5 @@
 import type { Config } from "tailwindcss";
-import * as defaultTheme from "tailwindcss/defaultTheme";
-
+import * as defaultTheme from "tailwindcss/defaultTheme"
 const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",

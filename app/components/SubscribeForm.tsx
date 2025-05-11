@@ -112,6 +112,7 @@ const SubscribeForm = () => {
       <CustomButton
         variant="Secondary"
         label="Email subscribe button"
+        className="h-10"
         onClick={verifyEmail}
       >
         Subscribe

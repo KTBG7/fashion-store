@@ -51,8 +51,7 @@ body {
 }
 
 #shop-now:hover {
-  box-shadow: 0px 0px 0px 4px
-    rgb(0.2666666805744171 0.2980392277240753 0.9058823585510254 / 0.12);
+  box-shadow: 0px 0px 0px 4px rgb(0.2666666805744171 0.2980392277240753 0.9058823585510254 / 0.12);
 }
 
 .carousel-container-custom {

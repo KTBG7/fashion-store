@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import SubscribeForm from "./SubscribeForm";
 import logo from "@/public/ecommerce_logo.svg";
@@ -10,7 +11,7 @@ import twitterXLogo from "@/public/twitter-x-line.svg";
 
 const Footer = () => {
   return (
-    <footer className="no-padding-container w-full containerMax:px-8 gap-y-12">
+    <footer className="col-span-full no-padding-container w-full containerMax:px-8 gap-y-12">
       <div className="no-padding-container gap-y-8 col-span-full">
         <div className="col-span-4 tablet:col-span-6 containerMax:col-span-8 flex flex-col flex-grow gap-2">
           <h2 className="text-xl font-semibold">Join our newsletter</h2>

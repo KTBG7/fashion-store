@@ -27,7 +27,7 @@ const Checkbox = ({ onClick, label, value, type }: CheckboxProps) => {
   return (
     <button
       onClick={toggleCheckbox}
-      className="flex gap-4 items-center"
+      className="group flex w-full gap-4 items-center"
       type="button"
       aria-label={label}
       role="checkbox"
@@ -35,12 +35,14 @@ const Checkbox = ({ onClick, label, value, type }: CheckboxProps) => {
     >
       <input
         readOnly
-        className="outline-neutral-300 border-neutral-300 accent-indigo-700"
+        className="group-hover:cursor-pointer outline-neutral-300 border-neutral-300 accent-indigo-700"
         type="checkbox"
         aria-disabled
         checked={checked}
       />
-      <label className="text-base text-neutral-600">{label}</label>
+      <label className="group-hover:cursor-pointer text-base text-neutral-600">
+        {label}
+      </label>
     </button>
   );
 };

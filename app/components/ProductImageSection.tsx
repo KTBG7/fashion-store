@@ -1,7 +1,6 @@
 import React, {
   Dispatch,
   SetStateAction,
-  useEffect,
   useMemo,
   useRef,
 } from "react";

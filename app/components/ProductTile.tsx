@@ -20,24 +20,16 @@ const ProductTile = ({ product }: ProductTileProps) => {
       variant="Product"
       localLink={"/shop/products/" + product.product_id}
     >
-      <div className="relative flex object-cover rounded w-full h-[300px]">
-        <Suspense
-          fallback={
-            <div className="bg-neutral-200 blur-3xl transition-colors from-neutral-200 to-neutral-300 ease-linear transform"></div>
-          }
-        >
-          <Image
-            quality={100}
-            priority
-            loading="eager"
-            className="relative min-w-full rounded-lg object-cover"
-            width={280}
-            height={300}
-            src={image.image_url}
-            alt={product.name}
-          ></Image>
-        </Suspense>
-      </div>
+      <Image
+        quality={100}
+        priority
+        loading="eager"
+        className="relative aspect-[319/225] tablet:aspect-[336/300] containerMax:aspect-[280/300] max-h-[300px] min-w-full rounded-lg object-cover"
+        width={280}
+        height={300}
+        src={image.image_url}
+        alt={product.name}
+      />
 
       <div className="pt-4">
         <h4 className="text-xs text-neutral-600">

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Collection, Product } from "../types";
 import ProductTile from "./ProductTile";
 import { useQuery } from "@tanstack/react-query";
-import { fetchCurrentCollection } from "../utils/apiHelper";
+import useFetch from "../hooks/useFetch";
 
 type ProductCollectionSectionProps = {
   collection: string;
@@ -14,6 +14,7 @@ const ProductCollectionSection = ({
   product_id,
 }: ProductCollectionSectionProps) => {
   const [currentCollection, setCurrentCollection] = useState<Array<Product>>();
+  const { fetchCurrentCollection } = useFetch();
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["productCollection" + product_id],
     queryFn: () => fetchCurrentCollection(collection),

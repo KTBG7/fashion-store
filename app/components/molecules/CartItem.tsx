@@ -1,5 +1,5 @@
 import { COLORS, PRODUCT_SIZES } from "@/app/constants";
-import { Product, SelectedProduct } from "@/app/types";
+import { SelectedProduct } from "@/app/types";
 import Image from "next/image";
 import React from "react";
 import QuantityButton from "../QuantityButton";

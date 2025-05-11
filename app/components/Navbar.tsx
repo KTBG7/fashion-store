@@ -1,3 +1,4 @@
+"use client";
 import { useContext, useEffect, useRef, useState } from "react";
 import shoppingBag from "@/public/shopping-bag.svg";
 import logo from "@/public/ecommerce_logo.svg";

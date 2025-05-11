@@ -1,9 +1,6 @@
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 import { PRODUCT_SIZES } from "../constants";
-import starIcon from "@/public/Star.svg";
-import emptyStar from "@/public/EmptyStar.svg";
-import halfStar from "@/public/HalfStar.svg";
 import { Product, ProductImage, ProductInventory } from "../types";
 import Link from "next/link";
 import ColorButton from "./ColorButton";
@@ -12,8 +9,10 @@ import QuantityButton from "./QuantityButton";
 import ProductDescriptionItem from "./ProductDescriptionItem";
 import Badge from "./atoms/Badge";
 import { UserContext } from "../contexts/UserContext";
+import RatingIcon from "./RatingIcon";
 
 type ProductDetailsSectionProps = {
+  selectedColor: string;
   image: ProductImage;
   product: Product;
   inventory: ProductInventory;
@@ -21,6 +20,7 @@ type ProductDetailsSectionProps = {
 };
 
 const ProductDetailsSection = ({
+  selectedColor,
   image,
   product,
   inventory,
@@ -32,8 +32,6 @@ const ProductDetailsSection = ({
   );
 
   const { user, updateUser } = useContext(UserContext);
-
-  let inCart = user.cart.has(inventory.sku);
 
   const increaseQuantity = () => {
     if (inventory.stock - quantity !== 0) {
@@ -60,13 +58,9 @@ const ProductDetailsSection = ({
       cart: user.cart,
     });
   };
-
-  const halfStars = product.rating % Math.floor(product.rating);
-  const emptyStars = 5 - (Math.floor(product.rating) + (halfStars ? 1 : 0));
-
   useEffect(() => {
-    inCart = user.cart.has(inventory.sku);
-  }, [user.cart]);
+    console.log("reloaded");
+  }, [selectedColor]);
 
   return (
     <section className="col-span-full containerMax:col-span-6 flex flex-col gap-10">
@@ -107,36 +101,7 @@ const ProductDetailsSection = ({
                 {product.rating.toFixed(2)}
               </span>
               <div className="flex gap-1">
-                {Array.from(Array(Math.floor(product.rating))).map(
-                  (img, idx: number) => (
-                    <Image
-                      src={starIcon}
-                      key={idx}
-                      alt="Full Review Star"
-                      height={20}
-                      width={20}
-                    />
-                  ),
-                )}
-                {halfStars ? (
-                  <Image
-                    src={halfStar}
-                    alt="Half Review Star"
-                    height={20}
-                    width={20}
-                  />
-                ) : null}
-                {emptyStars
-                  ? Array.from(Array(emptyStars)).map((img, idx: number) => (
-                      <Image
-                        src={emptyStar}
-                        height={20}
-                        width={20}
-                        alt="Empty Review Star"
-                        key={idx}
-                      />
-                    ))
-                  : null}
+                <RatingIcon product={product} />
               </div>
               <Link
                 href={"/"}
@@ -160,7 +125,7 @@ const ProductDetailsSection = ({
                       productName={product.name}
                       key={idx}
                       color={color}
-                      selected={color === inventory.color}
+                      selected={selectedColor === color}
                       stock={inventory.stock ? true : false}
                       handleColorChange={changeColor}
                       variant="large"
@@ -216,7 +181,7 @@ const ProductDetailsSection = ({
             variant="Purple"
             onClick={addToCart}
           >
-            {!inCart ? "Add to Cart" : "Update Cart"}
+            {!user.cart.has(inventory.sku) ? "Add to Cart" : "Update Cart"}
           </CustomButton>
         </div>
       </div>

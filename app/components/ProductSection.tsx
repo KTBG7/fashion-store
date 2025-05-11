@@ -7,7 +7,7 @@ import { productSearcher } from "../utils/helperFunctions";
 import ProductSpecificationsSection from "./ProductSpecificationsSection";
 import ProductCollectionSection from "./ProductCollectionSection";
 import { useQuery } from "@tanstack/react-query";
-import { fetchProduct } from "../utils/apiHelper";
+import useFetch from "../hooks/useFetch";
 
 type ProductSectionProps = {
   productId: string;
@@ -24,10 +24,12 @@ const ProductSection = ({ productId }: ProductSectionProps) => {
     useState<ProductVariant | null>();
 
   const [currentImage, setCurrentImage] = useState<ProductImage>();
+  const { fetchProduct } = useFetch();
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["fetchProduct" + productId],
     queryFn: () => fetchProduct(productId),
   });
+  const [selectedColor, setSelectedColor] = useState<string>("");
 
   useEffect(() => {
     if (data && !isLoading && !isFetching) {
@@ -40,6 +42,7 @@ const ProductSection = ({ productId }: ProductSectionProps) => {
       const img = product.images.find(
         (img) => img.color === product.inventory[0].color,
       )!;
+      setSelectedColor(product.inventory[0].color);
 
       setSelectedProductDetails({
         image: img,
@@ -54,43 +57,46 @@ const ProductSection = ({ productId }: ProductSectionProps) => {
     }
   }, [selectedProductDetails]);
 
-  const handleColorChange = useCallback(
-    (color: string) => {
-      if (selectedProductDetails) {
-        if (color === selectedProductDetails.inventory.color) {
-          return;
-        }
-        if (product) {
-          const { productImage, productInventory } = productSearcher(
-            product,
-            color,
-            selectedProductDetails.inventory.size,
-          );
-          setSelectedProductDetails({
-            image: productImage,
-            inventory: productInventory,
-          });
-        }
+  const handleColorChange = (color: string) => {
+    setSelectedColor(color);
+  };
+
+  useEffect(() => {
+    if (selectedProductDetails) {
+      if (selectedColor === selectedProductDetails.inventory.color) {
+        return;
       }
-    },
-    [product, selectedProductDetails],
-  );
+      if (product) {
+        const { productImage, productInventory } = productSearcher(
+          product,
+          selectedColor,
+          selectedProductDetails.inventory.size,
+        );
+        setSelectedProductDetails({
+          image: productImage,
+          inventory: productInventory,
+        });
+      }
+    }
+  }, [selectedColor, product, selectedProductDetails]);
   return (
-    <div className="no-padding-container containerMax:pr-8 containerMax:pl-[28px] gap-y-12 ">
+    <div className="col-span-full no-padding-container gap-y-12 ">
       {!isLoading &&
-      !isFetching &&
-      product &&
-      selectedProductDetails &&
-      currentImage ? (
+        !isFetching &&
+        product &&
+        selectedProductDetails &&
+        selectedColor &&
+        currentImage ? (
         <>
           <ProductImageSection
-            selectedColor={selectedProductDetails.inventory.color}
+            selectedColor={selectedColor}
             images={product.images}
             currentImage={currentImage}
             setCurrentImage={setCurrentImage}
             productName={product.name}
           />
           <ProductDetailsSection
+            selectedColor={selectedColor}
             image={currentImage}
             product={product}
             inventory={selectedProductDetails.inventory}

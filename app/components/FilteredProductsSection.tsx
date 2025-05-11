@@ -1,5 +1,4 @@
-import { Props } from "next/script";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
 import { RiFilterLine } from "react-icons/ri";
 import FilterDrawer from "../organisms/FilterDrawer";
@@ -10,42 +9,33 @@ import SortByDropdown from "./SortByDropdown";
 import { SortOptions, SortOptionEnum } from "../constants";
 import { FilterState, Product } from "../types";
 import { useQuery } from "@tanstack/react-query";
-import { fetchProducts } from "../utils/apiHelper";
+import { FiltersContext } from "../contexts/FiltersContext";
+import useFetch from "../hooks/useFetch";
+import useProducts from "../hooks/useProducts";
 
-type FilteredProductsSectionProps = {
-  updateFilters: (filterOption: string, value: string) => void;
-  clearFilters: () => void;
-  filters: FilterState;
-};
-
-const FilteredProductsSection = ({
-  updateFilters,
-  clearFilters,
-  filters,
-}: FilteredProductsSectionProps) => {
+const FilteredProductsSection = () => {
   const [selectedSortBy, setSelectedSortBy] = useState<SortOptions>(
     SortOptionEnum.created,
   );
+
+  const { filters, clearFilters } = useContext(FiltersContext);
   const [showNoResult, setShowNoResult] = useState(false);
 
   const [showFilter, setShowFilter] = useState(false);
   const [showSortByDropdown, setShowSortByDropdown] = useState(false);
 
   const [fetchedProducts, setFetchedProducts] = useState<Array<Product>>([]);
-  const { data, isLoading, isFetching, isError, refetch } = useQuery({
-    queryKey: ["productGridQuery"],
-    queryFn: () => fetchProducts(filters, selectedSortBy),
-  });
+  const { data, isLoading, isFetching, isError } = useProducts({ filters, selectedSortBy });
 
   useEffect(() => {
-    if (filters || selectedSortBy) {
-      refetch();
-    }
-  }, [filters, selectedSortBy, refetch]);
-
-  useEffect(() => {
-    if (!isLoading && !isFetching && !isError && data) {
-      setFetchedProducts(data);
+    if (!isLoading && !isFetching) {
+      if (!isError && data && data.length >= 1) {
+        setFetchedProducts(data);
+      } else {
+        displayShowNoResult();
+      }
+    } else {
+      hideShowNoResult();
     }
   }, [isLoading, data, isFetching, isError, fetchedProducts]);
 
@@ -59,25 +49,16 @@ const FilteredProductsSection = ({
   };
 
   const hideShowNoResult = () => {
-    clearFilters();
     setShowNoResult(false);
   };
 
   const updateSortByOption = (sortOption: SortOptions) => {
     setSelectedSortBy(sortOption);
   };
-  if (
-    !isFetching &&
-    !isLoading &&
-    fetchedProducts.length < 1 &&
-    !showNoResult
-  ) {
-    displayShowNoResult();
-  }
 
   return (
-    <div className="no-padding-container col-span-full containerMax:col-span-9 gap-8">
-      <div className="flex justify-between items-center containerMax:justify-end col-span-full relative">
+    <section className="flex gap-8 flex-col col-span-full containerMax:col-span-9 min-h-[950px]">
+      <div className="flex justify-between items-center containerMax:justify-end col-span-full containerMax:col-span-9 relative h-12">
         <CustomButton
           variant="White"
           label="Filter Button"
@@ -92,7 +73,7 @@ const FilteredProductsSection = ({
           variant="White"
           label="Sort By Button"
           needsSpan={false}
-          className={`flex items-center gap-1 px-3.5 py-2.5 rounded relative ${showNoResult ?? "containerMax:hidden"}`}
+          className={`flex items-center gap-1 px-3.5 py-2.5 rounded relative ${showNoResult && "containerMax:hidden"}`}
           onClick={toggleSortByDropdown}
         >
           <span className="px-0.5 text-neutral-900 font-medium">Sort by</span>
@@ -106,24 +87,20 @@ const FilteredProductsSection = ({
           updateSortByOption={updateSortByOption}
         ></SortByDropdown>
         <FilterDrawer
-          updateFilters={updateFilters}
           showFilter={showFilter}
           closeFilter={closeFilter}
         ></FilterDrawer>
       </div>
-      <div className="col-span-full">
-        {showNoResult ? (
-          <NoProductsFound hideShowNoResult={hideShowNoResult} />
-        ) : (
-          <ProductGrid
-            displayShowNoResult={() => displayShowNoResult()}
-            filters={filters}
-            selectedSortBy={selectedSortBy}
-            products={fetchedProducts}
-          />
-        )}
-      </div>
-    </div>
+      {showNoResult ? (
+        <NoProductsFound clearFilters={clearFilters} />
+      ) : (
+        <ProductGrid
+          filters={filters}
+          selectedSortBy={selectedSortBy}
+          products={fetchedProducts}
+        />
+      )}
+    </section>
   );
 };
 
