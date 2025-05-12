@@ -4,22 +4,18 @@ import Image from "next/image";
 import React from "react";
 import QuantityButton from "../QuantityButton";
 import CustomButton from "../atoms/CustomButton";
+import useUpdateCart from "@/app/hooks/useUpdateCart";
 
 type CartItemProps = {
   idx: number;
   product: SelectedProduct;
-  decreaseQuantity: (product: SelectedProduct) => void;
-  increaseQuantity: (product: SelectedProduct) => void;
-  removeProductFromCart: (sku: string) => void;
 };
 
 const CartItem = ({
   idx,
   product,
-  decreaseQuantity,
-  increaseQuantity,
-  removeProductFromCart,
 }: CartItemProps) => {
+  const { increaseQuantity, decreaseQuantity, removeProductFromCart } = useUpdateCart();
   return (
     <li
       className={`flex max-tablet:flex-wrap gap-4 tablet:gap-8 relative ${idx !== 0 ? "border-t pt-8 border-dotted border-t-neutral-300" : ""}`}

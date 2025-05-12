@@ -1,24 +1,16 @@
 "use client";
-import React, { useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
-import { useRouter } from "next/navigation";
+import React, { } from "react";
 import CheckoutSummary from "../components/CheckoutSummary";
 import CheckoutForm from "../components/CheckoutForm";
 import CustomButton from "../components/atoms/CustomButton";
 import { FiChevronLeft } from "react-icons/fi";
+import useCartValidation from "../hooks/useCartValidation";
 
 const Checkout = () => {
-  const { user } = useContext(UserContext);
-  const router = useRouter();
-
-  // useEffect(() => {
-  //   if (user.cart.size < 1) {
-  //     router.push("/cart");
-  //   }
-  // }, []);
+  useCartValidation();
   return (
     <>
-      <div className="no-padding-container w-full gap-8 ">
+      <div className="no-padding-container col-span-full gap-8 ">
         <CustomButton
           localLink="/cart"
           label="Back to Shopping Cart"
